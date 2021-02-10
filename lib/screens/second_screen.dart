@@ -25,10 +25,27 @@ var numbers = [
   'ten'
 ];
 
-class secondScreen extends StatelessWidget {
+class secondScreen extends StatefulWidget {
   String list_name = "alphabet";
+  List list_items;
+
   secondScreen(String str) {
     list_name = str;
+    list_items = getItems(list_name);
+  }
+
+  @override
+  _secondScreenState createState() => _secondScreenState();
+}
+
+class _secondScreenState extends State<secondScreen> {
+  final tfController = TextEditingController();
+  final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    tfController.dispose;
+    super.dispose();
   }
 
   @override
@@ -36,7 +53,7 @@ class secondScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          list_name,
+          widget.list_name,
           style: TextStyle(color: Color(0xFFC9C9C9)),
         ),
         backgroundColor: Colors.black87,
@@ -57,6 +74,7 @@ class secondScreen extends StatelessWidget {
                     height: 30.0,
                     width: getTFWidth(context),
                     child: TextField(
+                      controller: tfController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Enter Something',
@@ -68,7 +86,13 @@ class secondScreen extends StatelessWidget {
                     child: Text('Add'),
                     splashColor: Colors.white30,
                     onPressed: () {
-                      print('button pressed');
+                      addItem(widget.list_items, tfController);
+                      setState(() {});
+                      scrollController.animateTo(
+                        scrollController.position.maxScrollExtent + 85,
+                        curve: Curves.easeInOut,
+                        duration: Duration(milliseconds: 300),
+                      );
                     },
                   )
                 ],
@@ -77,9 +101,10 @@ class secondScreen extends StatelessWidget {
             Expanded(
               child: Container(
                 child: SingleChildScrollView(
+                  controller: scrollController,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: getItems(list_name),
+                    children: widget.list_items,
                   ),
                 ),
               ),
@@ -106,9 +131,7 @@ generateItems(List list) {
       color: Color(0xff8b8b8b),
       child: Text(
         name,
-        style: TextStyle(
-          color: Colors.white70,
-        ),
+        style: TextStyle(color: Colors.white70, fontSize: 15.0),
       ),
     );
     items.add(widget);
@@ -119,4 +142,18 @@ generateItems(List list) {
 getTFWidth(context) {
   double w = MediaQuery.of(context).size.width;
   return w - 100;
+}
+
+addItem(list_items, tfController) {
+  Widget item = new Container(
+    padding: EdgeInsets.all(30.0),
+    margin: EdgeInsets.only(bottom: 10.0),
+    alignment: Alignment.centerLeft,
+    color: Color(0xff8b8b8b),
+    child: Text(
+      tfController.text,
+      style: TextStyle(color: Colors.white70, fontSize: 15.0),
+    ),
+  );
+  list_items.add(item);
 }

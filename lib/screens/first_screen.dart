@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lists/screens/second_screen.dart';
 import 'package:path/path.dart';
 
-class firstScreen extends StatelessWidget {
+class firstScreen extends StatefulWidget {
+  @override
+  _firstScreenState createState() => _firstScreenState();
+}
+
+class _firstScreenState extends State<firstScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
