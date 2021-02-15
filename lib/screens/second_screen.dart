@@ -82,9 +82,9 @@ class _secondScreenState extends State<secondScreen>
 
   shareList() {
     print('called share');
-    // if (nameSet.isEmpty) return;
+    if (nameSet.isEmpty) return;
     // final RenderBox box = this.context.findRenderObject();
-    String txt = "";
+    String txt = widget.txt + " :-\n\n";
     for (String s in nameSet) {
       txt += s + '\n';
     }
