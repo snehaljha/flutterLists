@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:lists/dbs/table_names.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+// ignore: camel_case_types
 class mainDBProvider {
   mainDBProvider._();
 
@@ -43,12 +43,13 @@ class mainDBProvider {
     final db = await database;
     var result =
         await db.query('table_names', where: 'name = ', whereArgs: [str]);
+    // ignore: unrelated_type_equality_checks
     return result != Null;
   }
 
   insert(table_names table) async {
     final db = await database;
-    var result = await db.insert('table_names', table.toMap(),
+    await db.insert('table_names', table.toMap(),
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 

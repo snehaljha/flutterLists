@@ -1,4 +1,5 @@
 class Tasks {
+  // ignore: non_constant_identifier_names
   String task_name;
   int striked;
 

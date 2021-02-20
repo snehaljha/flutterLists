@@ -1,3 +1,4 @@
+// ignore: camel_case_types
 class table_names {
   // final int id;
   final String name;

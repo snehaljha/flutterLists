@@ -7,20 +7,25 @@ import 'package:lists/screens/second_screen.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
+// ignore: camel_case_types
 class firstScreen extends StatefulWidget {
   @override
   _firstScreenState createState() => _firstScreenState();
 }
 
+// ignore: camel_case_types
 class _firstScreenState extends State<firstScreen> {
   @override
   void dispose() {
+    super.dispose();
     mainDBProvider.db.finish();
   }
 
   final _scaffold = GlobalKey<ScaffoldState>();
   Future<List<table_names>> tables;
+  // ignore: non_constant_identifier_names
   List<table_names> all_tables;
+  // ignore: non_constant_identifier_names
   bool first_time = true;
   Set<String> namesSet = Set();
 
@@ -60,6 +65,7 @@ class _firstScreenState extends State<firstScreen> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   remove_table(table_names table) async {
     setState(() {
       all_tables.remove(table);
@@ -69,9 +75,9 @@ class _firstScreenState extends State<firstScreen> {
     await mainDBProvider.db.delete(table.name);
   }
 
-  deleteDB(String db_name) async {
+  deleteDB(String dbName) async {
     Directory dir = await getApplicationDocumentsDirectory();
-    File file = File(join(dir.path, db_name));
+    File file = File(join(dir.path, dbName));
     file.delete();
   }
 
@@ -217,7 +223,6 @@ class _firstScreenState extends State<firstScreen> {
   }
 
   deleteDialog(table_names table) {
-    TextEditingController renameController = TextEditingController();
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       elevation: 1,
@@ -285,12 +290,12 @@ class _firstScreenState extends State<firstScreen> {
     //   // });
     //   return;
     // }
-    table_names new_table = table_names(txt);
+    table_names newTable = table_names(txt);
     namesSet.add(txt);
     setState(() {
-      all_tables.add(new_table);
+      all_tables.add(newTable);
     });
-    await mainDBProvider.db.insert(new_table);
+    await mainDBProvider.db.insert(newTable);
   }
 
   goTo(String str) {

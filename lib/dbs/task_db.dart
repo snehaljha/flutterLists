@@ -1,14 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:lists/dbs/table_names.dart';
 import 'package:lists/dbs/tasks.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+// ignore: camel_case_types
 class taskDBProvider {
   taskDBProvider._();
+  // ignore: non_constant_identifier_names
   String list_name; // with s
 
   static final taskDBProvider db = taskDBProvider._();
@@ -32,14 +33,11 @@ class taskDBProvider {
           list_name +
           '" (task TEXT PRIMARY KEY, strike INTEGER)');
     });
-    print(list_name);
   }
 
   Future<List<Tasks>> getAllNames() async {
     final db = await database;
-    print(list_name);
-    List<Map> results = await db.rawQuery('SELECT * FROM ' + list_name);
-    print(list_name);
+    List<Map> results = await db.rawQuery('SELECT * FROM "' + list_name + '"');
     List<Tasks> tnames = List();
     results.forEach((result) {
       Tasks task = Tasks.fromMap(result);
@@ -57,25 +55,29 @@ class taskDBProvider {
 
   insert(Tasks task) async {
     final db = await database;
-    var result = await db.insert(list_name, task.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.ignore);
+    await db.rawInsert('INSERT INTO "' +
+        list_name +
+        '" VALUES ("' +
+        task.task_name +
+        '", ' +
+        task.striked.toString() +
+        ')');
   }
 
   changeState(Tasks task) async {
     final db = await database;
-    await db.rawUpdate('UPDATE ' +
+    await db.rawUpdate('UPDATE "' +
         list_name +
-        ' SET strike = ' +
+        '" SET strike = ' +
         task.striked.toString() +
         ' WHERE task = "' +
         task.task_name +
         '"');
-    print('::::::::::' + task.striked.toString());
   }
 
   delete(String str) async {
     final db = await database;
-    await db.rawDelete('DELETE FROM ' + list_name + ' WHERE task = ?', [str]);
+    await db.rawDelete('DELETE FROM "' + list_name + '" WHERE task = ?', [str]);
   }
 
   finish() async {
@@ -83,6 +85,5 @@ class taskDBProvider {
 
     await db.close();
     _database = null;
-    print('finish');
   }
 }

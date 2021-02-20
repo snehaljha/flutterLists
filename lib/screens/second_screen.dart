@@ -3,6 +3,7 @@ import 'package:lists/dbs/task_db.dart';
 import 'package:lists/dbs/tasks.dart';
 import 'package:share/share.dart';
 
+// ignore: must_be_immutable, camel_case_types
 class secondScreen extends StatefulWidget {
   String txt;
   secondScreen(String str) {
@@ -13,6 +14,7 @@ class secondScreen extends StatefulWidget {
   _secondScreenState createState() => _secondScreenState();
 }
 
+// ignore: camel_case_types
 class _secondScreenState extends State<secondScreen>
     with WidgetsBindingObserver {
   final tfController = TextEditingController();
@@ -25,7 +27,6 @@ class _secondScreenState extends State<secondScreen>
 
   @override
   void initState() {
-    print('++++++++++++INIT++++++++++');
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     taskDBProvider.db.setName('sj_' + widget.txt);
@@ -35,15 +36,14 @@ class _secondScreenState extends State<secondScreen>
 
   @override
   void dispose() {
-    tfController.dispose;
+    tfController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     taskDBProvider.db.finish();
     super.dispose();
   }
 
   _builder(int ind) {
-    print('-------------');
-    TextStyle ts = null;
+    TextStyle ts;
     if (tasks[ind].striked == 1) {
       ts = new TextStyle(
           fontSize: 18.0,
@@ -81,7 +81,6 @@ class _secondScreenState extends State<secondScreen>
   }
 
   shareList() {
-    print('called share');
     if (nameSet.isEmpty) return;
     // final RenderBox box = this.context.findRenderObject();
     String txt = widget.txt + " :-\n\n";
@@ -188,7 +187,6 @@ class _secondScreenState extends State<secondScreen>
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     itemCount: tasks.length,
                     itemBuilder: (context, ind) {
-                      print('CALLED');
                       return _builder(ind);
                     },
                   );
